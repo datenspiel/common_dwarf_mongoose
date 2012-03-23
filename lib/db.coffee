@@ -3,6 +3,9 @@ Schema  = Mongo.Schema
 
 base = require "./mixin"
 
+Mongoose.ObjectId = Schema.ObjectId
+Mongoose.Mixed    = Schema.Types.Mixed
+
 ###
 # This is the base class for all database namespaced 
   model classes.
@@ -109,7 +112,7 @@ class Mongoose.Base extends Mongoose.Mixin
   Initializes also the building of the magic methods.
   ###
   createModel:(attributes)=>
-    #console.log attributes
+    console.log attributes
     unless Mongoose.Mixin.isEmpty(@fields)
       modelSchema = new Schema(attributes)
       @model = Mongo.model(@alias, modelSchema, @alias.pluralize())
@@ -171,6 +174,10 @@ class Mongoose.Base extends Mongoose.Mixin
   @param {String} methodName - The method name to use which is also the attribute name. 
   ###
   initMethod:(methodName,schemaDefinition)=>
-    suffix = if typeof schemaDefinition.type() is 'boolean' then "is" else "get"
+    try
+      suffix = if typeof schemaDefinition.type() is 'boolean' then "is" else "get"
+    catch e
+      suffix = "get"
+
     @["#{suffix}#{methodName.camelize()}"] = ()->
       return @modelInstance[methodName]
