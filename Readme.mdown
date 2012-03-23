@@ -4,6 +4,14 @@
 
 ### Database ORM wrapper around Mongoose
 
+**Installation**
+
+Its not in the NPM registry by now, so install from the git repository:
+
+```sh
+git@github.com:datenspiel/common_dwarf_mongoose.git#v0.0.1
+```
+
 **Note**: 
 This may be something you want if you like to get your Node.js stuff done with CoffeeScript and you like
 a model definition which is like the model definitions in ExtJs.
