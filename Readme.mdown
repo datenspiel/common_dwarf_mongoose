@@ -9,8 +9,10 @@
 Its not in the NPM registry by now, so install from the git repository:
 
 ```sh
-git@github.com:datenspiel/common_dwarf_mongoose.git#v0.0.1
+npm install "https://github.com/datenspiel/common_dwarf_mongoose/tarball/vVERSION"
 ```
+
+where VERSION is one of the tarballs listed [here](https://github.com/datenspiel/common_dwarf_mongoose/tags).
 
 **Note**: 
 This may be something you want if you like to get your Node.js stuff done with CoffeeScript and you want
@@ -61,7 +63,10 @@ people => peoples
 
 which is obviously wrong. There is no inflector used within #pluralize.
 
-Any options documented from [Mongoose](http://mongoosejs.com/docs/schematypes.html) are possible.
+Any options documented from [Mongoose](http://mongoosejs.com/docs/schematypes.html) are possible with the following deviantions:
+
+* To use ObjectId use Mongoose.ObjectId
+* To use 'any' Type (Schema.Types.Mixed) use Mongoose.Mixed 
 
 The class takes care about reating a schema and a mongoose model like documented [here](http://mongoosejs.com/docs/model-definition.html).
 
