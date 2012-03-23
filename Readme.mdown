@@ -14,7 +14,8 @@ It combines creation of a Mongo schema and a mongoose model. Additional it
 provides some synthetic sugar around this:
 
 Let's say, we want to store a collection of authors in our MongoDB. 
-(**Note**: Connect to your MongoDB just [like this says](connection.mdown))
+
+(**Note**: Connect to your MongoDB just [like this says](http://github.com/datenspiel/common_dwarf_mongoose/blob/master/connection.mdown) )
 
 To use <code>Mongoose.Base</code> require the module:
 
