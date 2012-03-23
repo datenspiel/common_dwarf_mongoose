@@ -1,0 +1,14 @@
+### Connect to MongoDB with Common Dwarf Mongoose
+
+Common Dwarf Mongoose is by now just a simple wrapper around Mongoose.
+Therefore connecting to a MongoDB is done via Mongoose.
+
+```coffeescript
+mongo = require('mongoose')
+
+mongo.connect('mongodb://localhost/my_database')
+mongo.connection.on("open",()->
+  console.log "opened"
+)
+
+```

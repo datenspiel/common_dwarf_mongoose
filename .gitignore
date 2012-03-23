@@ -1,0 +1,10 @@
+try.coffee
+
+# node modules
+node_modules/
+
+# OSX stuff
+.DS_Store
+
+# VIM backups
+*.*~

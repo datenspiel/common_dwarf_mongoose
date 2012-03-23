@@ -1,0 +1,109 @@
+## Common Dwarf Mongoose
+
+![Common Dwarf Mongoose](http://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Helogale_parvula_qtl1.jpg/498px-Helogale_parvula_qtl1.jpg)
+
+### Database ORM wrapper around Mongoose
+
+**Note**: 
+This may be something you want if you like to get your Node.js stuff done with CoffeeScript and you like
+a model definition which is like the model definitions in ExtJs.
+
+<code>Mongoose.Base</code> is the superclass for all database related models. 
+
+It combines creation of a Mongo schema and a mongoose model. Additional it
+provides some synthetic sugar around this:
+
+Let's say, we want to store a collection of authors in our MongoDB. 
+(**Note**: Connect to your MongoDB just [like this says](connection.mdown))
+
+To use <code>Mongoose.Base</code> require the module:
+
+```coffeescript
+require 'common_dwarf_mongoose'
+```
+
+Define the model:
+
+```coffeescript
+class Author extends Mongoose.Base
+  
+  alias: 'author'
+
+  fields:
+    name    : {type : String, index: true}
+    blog    : {type : String, default: "http://blogpost.com"}
+    alive   : {type : Boolean,default: false}
+```
+
+The <code>alias</code> property is used to name the collection. This is done by pluralizing 
+the alias which is inspired by Ruby On Rails in a very simple way:
+
+```
+author => authors
+user => users
+blog_post => blog_posts
+```
+
+But still
+
+```
+people => peoples
+```
+
+which is obviously wrong. There is no inflector used within #pluralize.
+
+Any options documented from [Mongoose](http://mongoosejs.com/docs/schematypes.html) are possible.
+
+The class takes care about reating a schema and a mongoose model like documented [here](http://mongoosejs.com/docs/model-definition.html).
+
+With the addition of synthetic sugar it allows us:
+
+```coffeescript
+author = new Author()
+author.set('name':'Jack Kerouac')
+author.set('blog':'www.ontheroad.com')
+
+author.save((err)-> throw err if err)
+```
+
+Mass assignment is not supported at the moment. 
+
+Accessing saved authors is also easy. Maybe you know this from ActiveRecord or 
+Backbone.js:
+
+```coffeescript
+Author.find({},(err,authorDocuments)->
+  for authorAsDocument in authorDocuments
+    author = Author.becomesFrom(author)
+    console.log author.getName()
+    console.log author.getBlog()
+)
+```
+
+Notice the last two lines before the parenthesis.
+
+Any attribute you define in <code>fields</code> will be accessible with a
+get prefix after a model is instantiated and an attribute is assigned.
+
+```coffeescript
+author.getBlog()
+author.getName()
+```
+
+If you define a boolean attribute in <code>fields</code> the getter will be 
+more context understandable:
+
+```coffeescript
+author.isAlive()
+```
+
+Another option to get an attribute is calling <code>#get()</code>, which is also
+well know from backbone.js or ExtJs:
+
+```coffeescript
+author.get('name') #=> 'Jack Kerouac'
+```
+
+### Author
+
+Daniel Schmidt, Datenspiel GmbH 2012

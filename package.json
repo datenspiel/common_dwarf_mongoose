@@ -1,0 +1,17 @@
+{
+  "name": "common_dwarf_mongoose",
+  "version": "0.0.1",
+  "description": "A more common orm wrapper around mongoose",
+  "keywords": ["mongo", "mongoose", "orm"],
+  "repository": "",
+  "author": "Daniel Schmidt <dsci@code79.net>",
+  "dependencies":{
+    "mongoose": "*",
+    "coffee-script": "*"
+  },
+  "devDependencies":{
+    "should": "*",
+    "vows": "*"
+  }, 
+  "main": "index.js"
+}
