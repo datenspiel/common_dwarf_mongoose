@@ -13,8 +13,8 @@ git@github.com:datenspiel/common_dwarf_mongoose.git#v0.0.1
 ```
 
 **Note**: 
-This may be something you want if you like to get your Node.js stuff done with CoffeeScript and you like
-a model definition which is like the model definitions in ExtJs.
+This may be something you want if you like to get your Node.js stuff done with CoffeeScript and you want
+a model definition which similiar the model definitions in ExtJs.
 
 <code>Mongoose.Base</code> is the superclass for all database related models. 
 
