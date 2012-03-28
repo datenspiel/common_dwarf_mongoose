@@ -40,6 +40,14 @@ mongooseClassExtensibles =
     [conditions,callback] = options[0..-1]
     m = new @
     m.getModel().remove(conditions,callback)
+
+  # Delegates options to #update of mongoose model.
+  # Params are listed here:
+  # http://mongoosejs.com/docs/updating-documents.html
+  update:(options...)->
+    [conditions,update,options,callback] = options[0..-1]
+    m = new @
+    m.getModel().update(conditions, update, options, callback)
     
 # A module with instance methods for delegating to 
 # a mongoose model instance.
@@ -112,7 +120,6 @@ class Mongoose.Base extends Mongoose.Mixin
   Initializes also the building of the magic methods.
   ###
   createModel:(attributes)=>
-    console.log attributes
     unless Mongoose.Mixin.isEmpty(@fields)
       modelSchema = new Schema(attributes)
       @model = Mongo.model(@alias, modelSchema, @alias.pluralize())
@@ -142,6 +149,12 @@ class Mongoose.Base extends Mongoose.Mixin
   ###
   get:(field)->
     @modelInstance[field]
+
+  ###
+  Returns the value of the document _id attribute.
+  ###
+  getId:->
+    @modelInstance['_id']
 
   ###
   Returns the mongoose model (Notice: not the instance!)
