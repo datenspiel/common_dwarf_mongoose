@@ -3,6 +3,8 @@ module = (name) ->
   global[name] = global[name] or {}
 
 module 'Mongoose'
+module 'Mixin'
+module 'Extensions'
 
 # Monkey patching some globals.
 String::['camelize'] = ()->

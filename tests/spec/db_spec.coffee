@@ -1,6 +1,4 @@
-require "#{process.cwd()}/lib/mixin"
-require "#{process.cwd()}/lib/module"
-require "#{process.cwd()}/lib/db"
+require "#{process.cwd()}/index"
 
 # Require test libraries
 vows    = require "vows"

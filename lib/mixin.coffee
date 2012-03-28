@@ -3,7 +3,7 @@ Add mixin support with a Module class implementation
 ###
 moduleKeywords = ['extended', 'included']
 
-class Mixin
+class Mixin.Base
   @extend:(obj)->
     for key,value of obj when key not in moduleKeywords
       @[key] = value
@@ -18,7 +18,7 @@ class Mixin
     obj.included?.apply(@)
     @
 
-objectMethods =
+Extensions.objectMethods =
   # Checks if an object is empty by
   # checking if any property is included.
   #
@@ -27,6 +27,3 @@ objectMethods =
     for property of obj
       return false if obj.hasOwnProperty(property)
     return true
-
-exports.Mixin         = Mixin
-exports.objectMethods = objectMethods

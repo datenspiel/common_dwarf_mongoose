@@ -7,9 +7,7 @@ Tests mixin support by inherit from class Module.
 ###
 
 # Require core. 
-base = require "#{process.cwd()}/lib/mixin"
-require "#{process.cwd()}/lib/module"
-require "#{process.cwd()}/lib/db"
+require "#{process.cwd()}/index"
 
 # Require test libraries.
 vows    = require 'vows'
@@ -22,7 +20,7 @@ classProperties =
   mixinClassMethod: ->
 
 # Test class.
-class MixinTest extends base.Mixin
+class MixinTest extends Mixin.Base
   @include instanceProperties
   @extend classProperties
 

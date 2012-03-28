@@ -1,7 +1,7 @@
 Mongo   = require "mongoose"
 Schema  = Mongo.Schema
 
-base = require "./mixin"
+require "./mixin"
 
 Mongoose.ObjectId = Schema.ObjectId
 Mongoose.Mixed    = Schema.Types.Mixed
@@ -59,8 +59,8 @@ mongooseInstanceExtensibles =
     cb = if options.length isnt 0 then options[0] else (err)-> throw err if err
     @.modelInstance.save(cb)
 
-class Mongoose.Mixin extends base.Mixin
-  @extend base.objectMethods
+class Mongoose.Mixin extends Mixin.Base
+  @extend Extensions.objectMethods
 
 class Mongoose.Base extends Mongoose.Mixin
   # Extend class with static methods.

@@ -4,6 +4,8 @@
 
 ### Database ORM wrapper around Mongoose
 
+---
+
 **Installation**
 
 Its not in the NPM registry by now, so install from the git repository:
@@ -118,6 +120,50 @@ well know from backbone.js or ExtJs:
 author.get('name') #=> 'Jack Kerouac'
 ```
 
+** Mixin support **
+
+Common Dwarf Mongoose provides mixin support which is accessible if you require the library:
+
+```coffeescript
+require 'common_dwarf_mongoose'
+```
+
+Any class which inherits from <code>Mixin.Base</code> could include or extend functionality 
+with JavaScript objects:
+
+```coffeescript
+Extensions.documentation = 
+  kind:->
+    "paper"
+
+Extensions.folder = 
+  folderType:->
+    "extensions"
+
+
+class A extends Mixin.Base
+  @include Extensions.documentation
+  @extend Extensions.folder
+
+class B extends Mixin.Base
+  @include Extensions.documentation
+  @extend Extensions.folder
+
+a = new A()
+b = new B()
+
+console.log a.kind()
+console.log b.kind()
+
+console.log A.folderType()
+console.log B.folderType()
+```
+
+Common Dwarf Mongoose provides a global namespace called **Extensions** which could be used to 
+collect all your mixin modules within a single namespace. 
+
 ### Author
+
+---
 
 Daniel Schmidt, Datenspiel GmbH 2012
