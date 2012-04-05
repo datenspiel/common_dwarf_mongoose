@@ -1,13 +1,24 @@
 {
   "name": "common_dwarf_mongoose",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A coffescript wrapper around mongoose orm.",
-  "keywords": ["mongo", "mongoose", "orm"],
-  "repository": "git@github.com:datenspiel/common_dwarf_mongoose.git",
+  "keywords": [
+    "mongo",
+    "mongoose",
+    "orm"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:datenspiel/common_dwarf_mongoose.git"
+  },
   "author": "Daniel Schmidt <dsci@code79.net>",
-  "dependencies":{
+  "dependencies": {
     "mongoose": "2.5.13",
     "coffee-script": "1.2.0"
-  }, 
-  "main": "index.js"
+  },
+  "main": "index.js",
+  "devDependencies": {},
+  "engines": {
+    "node": "*"
+  }
 }

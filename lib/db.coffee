@@ -6,6 +6,20 @@ require "./mixin"
 Mongoose.ObjectId = Schema.ObjectId
 Mongoose.Mixed    = Schema.Types.Mixed
 
+# Merges properties from config into object if
+# config is an object.
+#
+# This is heavily inspired by ExtJS.
+# 
+# Return the object with merged properties. 
+apply=(object,another)->
+  if object? and another? and typeof another is 'object'
+    for key of another
+      object[key] = another[key]
+
+  return object
+
+
 ###
 # This is the base class for all database namespaced 
   model classes.
@@ -49,6 +63,47 @@ mongooseClassExtensibles =
     m = new @
     m.getModel().update(conditions, update, options, callback)
     
+  # Delegates options to #findById of mongoose model.
+  # Params are listed here:
+  # http://mongoosejs.com/docs/finding-documents.html
+  findById:(options...)->
+    [id,callback] = options[0..-1]
+    m = new @
+    m.getModel().findById(id,callback)
+
+  # Delegates options to #findOne of mongoose model.
+  # Params are listed here:
+  # http://mongoosejs.com/docs/finding-documents.html
+  findByOne:(options...)->
+    [query,callback] = options[0..-1]
+    m = new @
+    m.getModel().findByOne(query,callback)
+
+  # Delegates options to #count of mongoose model.
+  # Params are listed here:
+  # http://mongoosejs.com/docs/finding-documents.html
+  count:(options...)->
+    [query,callback] = options[0..-1]
+    m = new @
+    m.getModel().count(query,callback)
+
+  # Workaround to get #where and its method chaining 
+  # working for Mongoose.Base.
+  # Usage it like:
+  #
+  # Actor.forWhere()
+  # .where('age').gte(25)
+  # .where('tags').in(['movie', 'music', 'art'])
+  # . #  select('name', 'age', 'tags')
+  # .skip(20)
+  # .limit(10)
+  # .asc('age')
+  # .slaveOk()
+  # .hint({ age: 1, name: 1 })
+  # .run(callback)
+  forWhere:->
+    return (new @).getModel()
+
 # A module with instance methods for delegating to 
 # a mongoose model instance.
 mongooseInstanceExtensibles =
@@ -98,8 +153,10 @@ class Mongoose.Base extends Mongoose.Mixin
   # @[scope_name] = 
 
   constructor:->
+    @attributes = {}
     @model = {}
     @setUpSchema()
+    @buildAttributes()
 
   ###
   @private
@@ -109,9 +166,7 @@ class Mongoose.Base extends Mongoose.Mixin
   should be untouched for now.)
   ###
   setUpSchema:=>
-    @attributes = @fields
-    @createModel(@attributes)
-
+    @createModel(@fields)
 
   ###
   @private
@@ -138,6 +193,7 @@ class Mongoose.Base extends Mongoose.Mixin
   set:(object)->
     for key,value of object
       @modelInstance[key] = value
+      @updateAttributes(key)
 
   ###
   Get the value of the mongoose model attribute.
@@ -165,6 +221,12 @@ class Mongoose.Base extends Mongoose.Mixin
     @model
 
   ###
+  Returns the attributes as JSON.
+  ###
+  toJSON:->
+    JSON.stringify(@attributes)
+
+  ###
   @private
   
   Builds magic methods. 
@@ -177,6 +239,25 @@ class Mongoose.Base extends Mongoose.Mixin
       @model
     for key,value of @fields
       @initMethod(key,value)
+
+  ###
+  @private
+
+  Updates the attributes property with the value of key.
+  ###
+  updateAttributes:(key)->
+    attr = {}
+    attr[key] = @get(key)
+    @attributes = apply(@attributes,attr) if attr[key]?
+    
+  ###
+  @private 
+
+  Build attributes property with existing data properties.
+  ###
+  buildAttributes:->
+     @updateAttributes(key) for key,value of @fields
+     
 
   ###
   @private

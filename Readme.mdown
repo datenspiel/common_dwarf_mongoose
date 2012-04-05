@@ -2,7 +2,7 @@
 
 ![Common Dwarf Mongoose](http://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Helogale_parvula_qtl1.jpg/498px-Helogale_parvula_qtl1.jpg)
 
-### Database ORM wrapper around Mongoose
+### Mongoose with some synthetic sugar
 
 ---
 
@@ -120,7 +120,19 @@ well know from backbone.js or ExtJs:
 author.get('name') #=> 'Jack Kerouac'
 ```
 
-** Mixin support **
+To get all attributes which are set at once, use the <code>#attributes</code> property:
+
+```coffeescript
+author.attributes #=> {name: 'Jack Kerouac', blog: 'www.ontheroad.com'}
+```
+
+If you need a JSON representation of your model's data, you can achieve this with <code>#toJSON()</code> method:
+
+```coffeescript
+author.toJSON() #=> {'name' : 'Jack Kerouac', 'blog' : 'www.ontheroad.com'}
+```
+
+**Mixin support**
 
 Common Dwarf Mongoose provides mixin support which is accessible if you require the library:
 
