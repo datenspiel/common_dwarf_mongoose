@@ -137,6 +137,19 @@ class Mongoose.Base extends Mongoose.Mixin
   # ]
   fields: {}
 
+  # plugins is a list of plugins, which should used
+  # within the models schema.
+  #
+  # @example
+  # plugins: [
+  #   {plugin: mongooseAuth, config: { facebook:true }} 
+  # ]
+  #
+  # or
+  # plugins: 
+  #   plugin: mongooseAuth, config: {facebook:true}
+  plugins: {} 
+
   ###
   This is simliar to ActiveRecord#becames. It takes an 
   mongoose document and casts this into a OvuData.Base instance. 
@@ -176,8 +189,9 @@ class Mongoose.Base extends Mongoose.Mixin
   ###
   createModel:(attributes)=>
     unless Mongoose.Mixin.isEmpty(@fields)
-      modelSchema = new Schema(attributes)
-      @model = Mongo.model(@alias, modelSchema, @alias.pluralize())
+      @modelSchema = new Schema(attributes)
+      @addPlugins()
+      @model = Mongo.model(@alias, @modelSchema, @alias.pluralize())
       @modelInstance = new @model()
       @buildMagicMethods()
 
@@ -275,3 +289,19 @@ class Mongoose.Base extends Mongoose.Mixin
 
     @["#{suffix}#{methodName.camelize()}"] = ()->
       return @modelInstance[methodName]
+
+  addPlugins:->
+    if @plugins instanceof Array
+      for plugin in @plugins
+        pluginConfig = if plugin.config? then plugin.config else {}
+        @pluginToSchema(plugin,pluginConfig)
+    else
+      unless Mongoose.Mixin.isEmpty(@plugins)
+        pluginConfig = if @plugins.config? then @plugins.config else {}
+        @pluginToSchema(@plugins.plugin, pluginConfig)
+
+  ###
+  @private
+  ###
+  pluginToSchema:(plugin,config)->
+    @modelSchema.plugin(plugin, config)

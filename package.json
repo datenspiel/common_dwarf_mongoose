@@ -1,7 +1,7 @@
 {
   "name": "common_dwarf_mongoose",
-  "version": "0.0.7",
-  "description": "A coffescript wrapper around mongoose orm.",
+  "version": "0.0.8",
+  "description": "Mongoose with some synthetic sugar.",
   "keywords": [
     "mongo",
     "mongoose",
