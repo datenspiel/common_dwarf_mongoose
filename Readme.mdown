@@ -55,14 +55,6 @@ user => users
 blog_post => blog_posts
 ```
 
-But still
-
-```
-people => peoples
-```
-
-which is obviously wrong. There is no inflector used within #pluralize.
-
 Any options documented from [Mongoose](http://mongoosejs.com/docs/schematypes.html) are possible with the following deviantions:
 
 * To use ObjectId use Mongoose.ObjectId

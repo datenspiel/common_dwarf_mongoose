@@ -1,5 +1,6 @@
-Mongo   = require "mongoose"
-Schema  = Mongo.Schema
+inflector = require "inflection"
+Mongo     = require "mongoose"
+Schema    = Mongo.Schema
 
 require "./mixin"
 
@@ -192,7 +193,7 @@ class Mongoose.Base extends Mongoose.Mixin
     unless Mongoose.Mixin.isEmpty(@fields)
       @modelSchema = new Schema(attributes)
       @addPlugins()
-      @model = Mongo.model(@alias, @modelSchema, @alias.pluralize())
+      @model = Mongo.model(@alias, @modelSchema, inflector.pluralize(@alias))
       @modelInstance = new @model()
       @buildMagicMethods()
 

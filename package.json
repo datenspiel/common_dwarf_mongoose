@@ -1,6 +1,6 @@
 {
   "name": "common_dwarf_mongoose",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "Mongoose with some synthetic sugar.",
   "keywords": [
     "mongo",
@@ -14,7 +14,8 @@
   "author": "Daniel Schmidt <dsci@code79.net>",
   "dependencies": {
     "mongoose": "2.5.13",
-    "coffee-script": "1.2.0"
+    "coffee-script": "1.2.0",
+    "inflection":"latest"
   },
   "main": "index.js",
   "devDependencies": {},
