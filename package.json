@@ -1,6 +1,6 @@
 {
   "name": "common_dwarf_mongoose",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Mongoose with some synthetic sugar.",
   "keywords": [
     "mongo",

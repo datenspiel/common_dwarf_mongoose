@@ -160,6 +160,7 @@ class Mongoose.Base extends Mongoose.Mixin
   @becomesFrom:(document)->
     me = new @
     me.modelInstance = document
+    me.buildAttributes()
     return me
 
   #@scope:(scope_name, options)
@@ -169,7 +170,7 @@ class Mongoose.Base extends Mongoose.Mixin
     @attributes = {}
     @model = {}
     @setUpSchema()
-    @buildAttributes()
+    #@buildAttributes()
 
   ###
   @private
@@ -260,8 +261,10 @@ class Mongoose.Base extends Mongoose.Mixin
   Updates the attributes property with the value of key.
   ###
   updateAttributes:(key)->
+    #console.log "key is #{key}"
+    #console.log @modelInstance
     attr = {}
-    attr[key] = @get(key)
+    attr[key] = @modelInstance[key]
     @attributes = apply(@attributes,attr) if attr[key]?
     
   ###
@@ -270,7 +273,7 @@ class Mongoose.Base extends Mongoose.Mixin
   Build attributes property with existing data properties.
   ###
   buildAttributes:->
-     @updateAttributes(key) for key,value of @fields
+    @updateAttributes(key) for key,value of @fields
      
 
   ###
