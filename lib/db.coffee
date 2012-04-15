@@ -75,10 +75,10 @@ mongooseClassExtensibles =
   # Delegates options to #findOne of mongoose model.
   # Params are listed here:
   # http://mongoosejs.com/docs/finding-documents.html
-  findByOne:(options...)->
+  findOne:(options...)->
     [query,callback] = options[0..-1]
     m = new @
-    m.getModel().findByOne(query,callback)
+    m.getModel().findOne(query,callback)
 
   # Delegates options to #count of mongoose model.
   # Params are listed here:
