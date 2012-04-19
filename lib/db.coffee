@@ -151,6 +151,14 @@ class Mongoose.Base extends Mongoose.Mixin
   #   plugin: mongooseAuth, config: {facebook:true}
   plugins: {} 
 
+  # A mongoose connection instance. This have to a global
+  # variable or a defined instance which is accessible within
+  # the scope the class is defined. 
+  # If connection is not set in the model definition it uses 
+  # mongoose.connection to create a model, its schema and the 
+  # operations on it.  
+  connection: {}
+
   ###
   This is simliar to ActiveRecord#becames. It takes an 
   mongoose document and casts this into a OvuData.Base instance. 
@@ -191,9 +199,10 @@ class Mongoose.Base extends Mongoose.Mixin
   ###
   createModel:(attributes)=>
     unless Mongoose.Mixin.isEmpty(@fields)
+      source = if Mongoose.Mixin.isEmpty(@connection) then Mongo else @connection
       @modelSchema = new Schema(attributes)
       @addPlugins()
-      @model = Mongo.model(@alias, @modelSchema, inflector.pluralize(@alias))
+      @model = source.model(@alias, @modelSchema, inflector.pluralize(@alias))
       @modelInstance = new @model()
       @buildMagicMethods()
 

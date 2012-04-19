@@ -161,6 +161,39 @@ class Author extends Mongoose.Base
 
 That's it.
 
+**Multiple connections**
+
+If you have to handle documents scattered at different databases it would be nice to handle this within the model definition.
+Unfortunately, adding database names to a common_dwarf_mongoose model is not possible due the fact it is mongoose based.
+But a solution is to add a connection instance to your model. 
+
+```coffeescript
+personnel_db  = mongo.createConnection("mongodb://0.0.0.0/personnel")
+tasks_db      = mongo.createConnection("mongodb://0.0.0.0/tasks")
+
+class FacilityManager extends Mongoose.Base
+
+  alias: 'manager'
+
+  fields:
+    name    : { type: String, index: true }
+    salary  : { type: Number } 
+
+  connection: personnel_db
+
+class Task extends Mongoose.Base
+
+  alias: 'task'
+
+  fields:
+    name    : { type: String,   index: true }
+    due_to  : { type: Date,     index:true  }
+    done    : { type: Boolean }
+```
+
+*Note:* If you seperate your database connection handling from defining your models (say other files or modules),
+<code>connection</code> must be global or otherwise accessable. 
+
 **Querying**
 
 To use <code>#where()</code>
