@@ -1,0 +1,355 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Common dwarf mongoose by datenspiel</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/datenspiel/common_dwarf_mongoose">Fork On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/datenspiel/common_dwarf_mongoose/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/datenspiel/common_dwarf_mongoose/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Common dwarf mongoose</h1>
+          <p>Mongoose with some synthetic sugar.</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/datenspiel">datenspiel</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h2>Common Dwarf Mongoose</h2>
+
+<p><img src="http://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Helogale_parvula_qtl1.jpg/498px-Helogale_parvula_qtl1.jpg" alt="Common Dwarf Mongoose"></p>
+
+<h3>Mongoose with some synthetic sugar</h3>
+
+<p>Common Dwarf Mongoose is a little wrapper around the excellent Mongoose ORM library. It provides some synthetic sugar like attributes and a more ExtJS/Backbone.js inspired way to define database models.</p>
+
+<hr><p><strong>Installation</strong></p>
+
+<p>Installing is very easy, get it from the NPM registry:</p>
+
+<div class="highlight">
+<pre>npm install common_dwarf_mongoose
+</pre>
+</div>
+
+
+<p><strong>Usage</strong></p>
+
+<p><code>Mongoose.Base</code> is the superclass for all database related models. </p>
+
+<p>It combines creation of a Mongo schema and a mongoose model. Additional it
+provides some synthetic sugar around this:</p>
+
+<p>Let's say, we want to store a collection of authors in our MongoDB. </p>
+
+<p>(<strong>Note</strong>: Connect to your MongoDB just <a href="http://github.com/datenspiel/common_dwarf_mongoose/blob/master/connection.mdown">like this says</a> )</p>
+
+<p>To use <code>Mongoose.Base</code> require the module:</p>
+
+<div class="highlight">
+<pre><span class="nx">require</span> <span class="s">'common_dwarf_mongoose'</span>
+</pre>
+</div>
+
+
+<p>Define the model:</p>
+
+<div class="highlight">
+<pre><span class="k">class</span> <span class="nx">Author</span> <span class="k">extends</span> <span class="nx">Mongoose</span><span class="p">.</span><span class="nx">Base</span>
+
+  <span class="nv">alias: </span><span class="s">'author'</span>
+
+  <span class="nv">fields:</span>
+    <span class="nv">name    : </span><span class="p">{</span><span class="nv">type : </span><span class="nb">String</span><span class="p">,</span> <span class="nv">index: </span><span class="kc">true</span><span class="p">}</span>
+    <span class="nv">blog    : </span><span class="p">{</span><span class="nv">type : </span><span class="nb">String</span><span class="p">,</span> <span class="nv">default: </span><span class="s">"<a href="http://blogpost.com">http://blogpost.com</a>"</span><span class="p">}</span>
+    <span class="nv">alive   : </span><span class="p">{</span><span class="nv">type : </span><span class="nb">Boolean</span><span class="p">,</span><span class="nv">default: </span><span class="kc">false</span><span class="p">}</span>
+</pre>
+</div>
+
+
+<p>The <code>alias</code> property is used to name the collection. This is done by pluralizing 
+the alias which is inspired by Ruby On Rails in a very simple way:</p>
+
+<pre><code>author =&gt; authors
+user =&gt; users
+blog_post =&gt; blog_posts
+</code></pre>
+
+<p>But still</p>
+
+<pre><code>people =&gt; peoples
+</code></pre>
+
+<p>which is obviously wrong. There is no inflector used within #pluralize.</p>
+
+<p>Any options documented from <a href="http://mongoosejs.com/docs/schematypes.html">Mongoose</a> are possible with the following deviantions:</p>
+
+<ul>
+<li>To use ObjectId use Mongoose.ObjectId</li>
+<li>To use 'any' Type (Schema.Types.Mixed) use Mongoose.Mixed </li>
+</ul><p>The class takes care about reating a schema and a mongoose model as documented <a href="http://mongoosejs.com/docs/model-definition.html">here</a>.</p>
+
+<p>With the addition of synthetic sugar it allows us:</p>
+
+<div class="highlight">
+<pre><span class="nv">author = </span><span class="k">new</span> <span class="nx">Author</span><span class="p">()</span>
+<span class="nx">author</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s">'name'</span><span class="o">:</span><span class="s">'Jack Kerouac'</span><span class="p">)</span>
+<span class="nx">author</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s">'blog'</span><span class="o">:</span><span class="s">'<a href="http://www.ontheroad.com">www.ontheroad.com</a>'</span><span class="p">)</span>
+
+<span class="nx">author</span><span class="p">.</span><span class="nx">save</span><span class="p">(</span><span class="nf">(err)-&gt;</span> <span class="k">throw</span> <span class="nx">err</span> <span class="k">if</span> <span class="nx">err</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<p>Mass assignment is not supported at the moment. </p>
+
+<p>Accessing saved authors is also easy. Maybe you know this from ActiveRecord or 
+Backbone.js:</p>
+
+<div class="highlight">
+<pre><span class="nx">Author</span><span class="p">.</span><span class="nx">find</span><span class="p">({},</span><span class="nf">(err,authorDocuments)-&gt;</span>
+  <span class="k">for</span> <span class="nx">authorAsDocument</span> <span class="k">in</span> <span class="nx">authorDocuments</span>
+    <span class="nv">author = </span><span class="nx">Author</span><span class="p">.</span><span class="nx">becomesFrom</span><span class="p">(</span><span class="nx">author</span><span class="p">)</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">author</span><span class="p">.</span><span class="nx">getName</span><span class="p">()</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">author</span><span class="p">.</span><span class="nx">getBlog</span><span class="p">()</span>
+<span class="p">)</span>
+</pre>
+</div>
+
+
+<p>(Also supported are <code>#findById</code> and <code>findByOne</code>.)</p>
+
+<p>Notice the last two lines before the parenthesis.</p>
+
+<p>Any attribute you define in <code>fields</code> will be accessible with a
+get prefix after a model is instantiated and an attribute is assigned.</p>
+
+<div class="highlight">
+<pre><span class="nx">author</span><span class="p">.</span><span class="nx">getBlog</span><span class="p">()</span>
+<span class="nx">author</span><span class="p">.</span><span class="nx">getName</span><span class="p">()</span>
+</pre>
+</div>
+
+
+<p>If you define a boolean attribute in <code>fields</code> the getter will be 
+more context understandable:</p>
+
+<div class="highlight">
+<pre><span class="nx">author</span><span class="p">.</span><span class="nx">isAlive</span><span class="p">()</span>
+</pre>
+</div>
+
+
+<p>Another option to get an attribute is calling <code>#get()</code>, which is also
+well know from backbone.js or ExtJs:</p>
+
+<div class="highlight">
+<pre><span class="nx">author</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s">'name'</span><span class="p">)</span> <span class="c1">#=&gt; 'Jack Kerouac'</span>
+</pre>
+</div>
+
+
+<p>To get all attributes at once, use the <code>#attributes</code> property:</p>
+
+<div class="highlight">
+<pre><span class="nx">author</span><span class="p">.</span><span class="nx">attributes</span> <span class="c1">#=&gt; {name: 'Jack Kerouac', blog: '<a href="http://www.ontheroad.com'">www.ontheroad.com'</a>}</span>
+</pre>
+</div>
+
+
+<p>If you need a JSON representation of your model's data, you can achieve this with <code>#toJSON()</code> method:</p>
+
+<div class="highlight">
+<pre><span class="nx">author</span><span class="p">.</span><span class="nx">toJSON</span><span class="p">()</span> <span class="c1">#=&gt; {'name' : 'Jack Kerouac', 'blog' : '<a href="http://www.ontheroad.com'">www.ontheroad.com'</a>}</span>
+</pre>
+</div>
+
+
+<p><strong>Plugins</strong></p>
+
+<p>Common Dwarf Mongoose also supports plugins like you know them from mongoose. Adding them to your model is 
+easy as defining fields:</p>
+
+<p>Write a plugin or use an existing one:</p>
+
+<div class="highlight">
+<pre><span class="nv">lastModified = </span><span class="nf">(schema, options)-&gt;</span>
+  <span class="nx">schema</span><span class="p">.</span><span class="nx">add</span><span class="p">({</span> <span class="nv">lastMod: </span><span class="nb">Date</span> <span class="p">})</span>
+
+  <span class="nx">schema</span><span class="p">.</span><span class="nx">pre</span><span class="p">(</span><span class="s">'save'</span><span class="p">,</span> <span class="nf">(next)-&gt;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nv">lastMod = </span><span class="k">new</span> <span class="nb">Date</span>
+    <span class="nx">next</span><span class="p">()</span>
+  <span class="p">)</span>
+
+  <span class="nx">schema</span><span class="p">.</span><span class="nx">path</span><span class="p">(</span><span class="s">'lastMod'</span><span class="p">).</span><span class="nx">index</span><span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">index</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="nx">options</span> <span class="o">&amp;&amp;</span> <span class="nx">options</span><span class="p">.</span><span class="nx">index</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<p>Add the plugin to the model:</p>
+
+<div class="highlight">
+<pre><span class="k">class</span> <span class="nx">Author</span> <span class="k">extends</span> <span class="nx">Mongoose</span><span class="p">.</span><span class="nx">Base</span>
+
+  <span class="nv">alias: </span><span class="s">'author'</span>
+
+  <span class="nv">fields:</span>
+    <span class="nv">name    : </span><span class="p">{</span><span class="nv">type : </span><span class="nb">String</span><span class="p">,</span> <span class="nv">index: </span><span class="kc">true</span><span class="p">}</span>
+    <span class="nv">blog    : </span><span class="p">{</span><span class="nv">type : </span><span class="nb">String</span><span class="p">,</span> <span class="nv">default: </span><span class="s">"<a href="http://blogpost.com">http://blogpost.com</a>"</span><span class="p">}</span>
+    <span class="nv">alive   : </span><span class="p">{</span><span class="nv">type : </span><span class="nb">Boolean</span><span class="p">,</span><span class="nv">default: </span><span class="kc">false</span><span class="p">}</span>
+
+  <span class="nv">plugins:</span>
+    <span class="nv">plugin: </span><span class="nx">lastModified</span><span class="p">,</span> <span class="nv">config: </span><span class="p">{</span><span class="nv">index: </span><span class="kc">true</span><span class="p">}</span>
+
+</pre>
+</div>
+
+
+<p>That's it.</p>
+
+<p><strong>Multiple connections</strong></p>
+
+<p>If you have to handle documents scattered at different databases it would be nice to handle this within the model definition.
+Unfortunately, adding database names to a common_dwarf_mongoose model is not possible due the fact it is mongoose based.
+But a solution is to add a connection instance to your model. </p>
+
+<div class="highlight">
+<pre><span class="nv">personnel_db  = </span><span class="nx">mongo</span><span class="p">.</span><span class="nx">createConnection</span><span class="p">(</span><span class="s">"mongodb://0.0.0.0/personnel"</span><span class="p">)</span>
+<span class="nv">tasks_db      = </span><span class="nx">mongo</span><span class="p">.</span><span class="nx">createConnection</span><span class="p">(</span><span class="s">"mongodb://0.0.0.0/tasks"</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nx">FacilityManager</span> <span class="k">extends</span> <span class="nx">Mongoose</span><span class="p">.</span><span class="nx">Base</span>
+
+  <span class="nv">alias: </span><span class="s">'manager'</span>
+
+  <span class="nv">fields:</span>
+    <span class="nv">name    : </span><span class="p">{</span> <span class="nv">type: </span><span class="nb">String</span><span class="p">,</span> <span class="nv">index: </span><span class="kc">true</span> <span class="p">}</span>
+    <span class="nv">salary  : </span><span class="p">{</span> <span class="nv">type: </span><span class="nb">Number</span> <span class="p">}</span> 
+
+  <span class="nv">connection: </span><span class="nx">personnel_db</span>
+
+<span class="k">class</span> <span class="nx">Task</span> <span class="k">extends</span> <span class="nx">Mongoose</span><span class="p">.</span><span class="nx">Base</span>
+
+  <span class="nv">alias: </span><span class="s">'task'</span>
+
+  <span class="nv">fields:</span>
+    <span class="nv">name    : </span><span class="p">{</span> <span class="nv">type: </span><span class="nb">String</span><span class="p">,</span>   <span class="nv">index: </span><span class="kc">true</span> <span class="p">}</span>
+    <span class="nv">due_to  : </span><span class="p">{</span> <span class="nv">type: </span><span class="nb">Date</span><span class="p">,</span>     <span class="nx">index</span><span class="o">:</span><span class="kc">true</span>  <span class="p">}</span>
+    <span class="nv">done    : </span><span class="p">{</span> <span class="nv">type: </span><span class="nb">Boolean</span> <span class="p">}</span>
+
+  <span class="nv">connection: </span><span class="nx">tasks_db</span>
+</pre>
+</div>
+
+
+<p><em>Note:</em> If you seperate your database connection handling from defining your models (say other files or modules),
+<code>connection</code> must be global or otherwise accessable. </p>
+
+<p><strong>Querying</strong></p>
+
+<p>To use <code>#where()</code></p>
+
+<div class="highlight">
+<pre><span class="nx">Actor</span><span class="p">.</span><span class="nx">forWhere</span><span class="p">()</span>
+ <span class="p">.</span><span class="nx">where</span><span class="p">(</span><span class="s">'age'</span><span class="p">).</span><span class="nx">gte</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span>
+ <span class="p">.</span><span class="nx">where</span><span class="p">(</span><span class="s">'tags'</span><span class="p">).</span><span class="k">in</span><span class="p">([</span><span class="s">'movie'</span><span class="p">,</span> <span class="s">'music'</span><span class="p">,</span> <span class="s">'art'</span><span class="p">])</span>
+ <span class="p">.</span> <span class="c1">#  select('name', 'age', 'tags')</span>
+ <span class="p">.</span><span class="nx">skip</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+ <span class="p">.</span><span class="nx">limit</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+ <span class="p">.</span><span class="nx">asc</span><span class="p">(</span><span class="s">'age'</span><span class="p">)</span>
+ <span class="p">.</span><span class="nx">slaveOk</span><span class="p">()</span>
+ <span class="p">.</span><span class="nx">hint</span><span class="p">({</span> <span class="nv">age: </span><span class="mi">1</span><span class="p">,</span> <span class="nv">name: </span><span class="mi">1</span> <span class="p">})</span>
+ <span class="p">.</span><span class="nx">run</span><span class="p">(</span><span class="nx">callback</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<p><strong>Aggregating</strong></p>
+
+<p>You can use <code>#count</code> of course.</p>
+
+<p><strong>Mixin support</strong></p>
+
+<p>Common Dwarf Mongoose provides mixin support which is accessible if you require the library:</p>
+
+<div class="highlight">
+<pre><span class="nx">require</span> <span class="s">'common_dwarf_mongoose'</span>
+</pre>
+</div>
+
+
+<p>Any class which inherits from <code>Mixin.Base</code> could include or extend functionality 
+with JavaScript objects:</p>
+
+<div class="highlight">
+<pre><span class="nv">Extensions.documentation = </span>
+  <span class="nx">kind</span><span class="o">:-&gt;</span>
+    <span class="s">"paper"</span>
+
+<span class="nv">Extensions.folder = </span>
+  <span class="nx">folderType</span><span class="o">:-&gt;</span>
+    <span class="s">"extensions"</span>
+
+
+<span class="k">class</span> <span class="nx">A</span> <span class="k">extends</span> <span class="nx">Mixin</span><span class="p">.</span><span class="nx">Base</span>
+  <span class="nx">@include</span> <span class="nx">Extensions</span><span class="p">.</span><span class="nx">documentation</span>
+  <span class="nx">@extend</span> <span class="nx">Extensions</span><span class="p">.</span><span class="nx">folder</span>
+
+<span class="k">class</span> <span class="nx">B</span> <span class="k">extends</span> <span class="nx">Mixin</span><span class="p">.</span><span class="nx">Base</span>
+  <span class="nx">@include</span> <span class="nx">Extensions</span><span class="p">.</span><span class="nx">documentation</span>
+  <span class="nx">@extend</span> <span class="nx">Extensions</span><span class="p">.</span><span class="nx">folder</span>
+
+<span class="nv">a = </span><span class="k">new</span> <span class="nx">A</span><span class="p">()</span>
+<span class="nv">b = </span><span class="k">new</span> <span class="nx">B</span><span class="p">()</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">a</span><span class="p">.</span><span class="nx">kind</span><span class="p">()</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">b</span><span class="p">.</span><span class="nx">kind</span><span class="p">()</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">A</span><span class="p">.</span><span class="nx">folderType</span><span class="p">()</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">B</span><span class="p">.</span><span class="nx">folderType</span><span class="p">()</span>
+</pre>
+</div>
+
+
+<p>Common Dwarf Mongoose provides a global namespace called <strong>Extensions</strong> which could be used to 
+collect all your mixin modules within a single namespace. </p>
+
+<h3>Authors and Contributors</h3>
+
+<p>Written by Daniel Schmidt(<a href="https://github.com/dsci" class="user-mention">@dsci</a>), Datenspiel GmbH 2012</p>
+
+<p>The picture above was taken by <a href="http://commons.wikimedia.org/wiki/User:Quartl">Quartl</a>.</p>
+
+<h3>Support or Contact</h3>
+
+<p>Having trouble with Common Dwarf Mongoose? Do not hesitate to open an issue at the <a href="https://github.com/datenspiel/common_dwarf_mongoose/issues">Issue Tracker</a> <img class="emoji" title=":octocat:" alt=":octocat:" src="https://a248.e.akamai.net/assets.github.com/images/icons/emoji/octocat.png?v5" height="20" width="20" align="absmiddle"> .</p>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+    
+  </body>
+</html>
